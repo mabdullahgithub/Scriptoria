@@ -5,8 +5,8 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ route('dashboard') }}" class="text-2xl font-bold text-gray-800 hover:text-gray-600 transition-colors duration-200">
+                        Scriptoria
                     </a>
                 </div>
 
@@ -15,6 +15,20 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    
+                    @auth
+                        @if(Auth::user()->isWriter() || Auth::user()->isAdmin())
+                            <x-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.*')">
+                                {{ __('My Articles') }}
+                            </x-nav-link>
+                        @endif
+                        
+                        @if(Auth::user()->isAdmin())
+                            <x-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')">
+                                {{ __('Admin Panel') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
                 </div>
             </div>
 
@@ -70,6 +84,20 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            
+            @auth
+                @if(Auth::user()->isWriter() || Auth::user()->isAdmin())
+                    <x-responsive-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.*')">
+                        {{ __('My Articles') }}
+                    </x-responsive-nav-link>
+                @endif
+                
+                @if(Auth::user()->isAdmin())
+                    <x-responsive-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')">
+                        {{ __('Admin Panel') }}
+                    </x-responsive-nav-link>
+                @endif
+            @endauth
         </div>
 
         <!-- Responsive Settings Options -->

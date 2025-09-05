@@ -20,7 +20,7 @@ trait ApiResponses
         return response()->json($response, $code);
     }
 
-    protected function errorResponse($message = null, $code)
+    protected function errorResponse($code, $message = null)
     {
         return response()->json([
             'code' => $code,

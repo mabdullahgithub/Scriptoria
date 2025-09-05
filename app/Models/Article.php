@@ -4,33 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\ArticleStatus;
 
 class Article extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',
         'title',
         'content',
+        'excerpt',
         'status',
+        'published_at',
     ];
 
     protected function casts(): array
     {
         return [
             'status' => ArticleStatus::class,
+            'published_at' => 'datetime',
         ];
     }
 
-    // Relationships
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Scopes
     public function scopePublished($query)
     {
         return $query->where('status', ArticleStatus::PUBLISHED);
@@ -41,12 +43,21 @@ class Article extends Model
         return $query->where('status', ArticleStatus::PENDING_REVIEW);
     }
 
+    public function scopeDraft($query)
+    {
+        return $query->where('status', ArticleStatus::DRAFT);
+    }
+
+    public function scopeRejected($query)
+    {
+        return $query->where('status', ArticleStatus::REJECTED);
+    }
+
     public function scopeByWriter($query, $userId)
     {
         return $query->where('user_id', $userId);
     }
 
-    // Helper methods
     public function canBeSubmitted(): bool
     {
         return $this->status->canBeSubmitted();
