@@ -154,27 +154,6 @@ Access the application at `http://localhost:8000`
 # Create storage symlink
 php artisan storage:link
 ```
-
-## Application Screenshots
-
-### Authentication Interface
-<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/Auth_page.png" alt="Auth Page" width="600">
-
-### Writer Dashboard
-<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/writer_dashboard.png" alt="Writer Dashboard" width="600">
-
-### Admin Dashboard
-<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/admin_dashboard.png" alt="Admin Dashboard" width="600">
-
-### Article Creation
-<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/create_article.png" alt="Create Article" width="600">
-
-### Public Home Page
-<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/public_home_page.png" alt="Public Home Page" width="600">
-
-### Article Display
-<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/single_article_page.png" alt="Single Article Page" width="600">
-
 ## Development Standards
 
 ### Code Organization
