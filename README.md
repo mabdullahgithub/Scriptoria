@@ -158,22 +158,22 @@ php artisan storage:link
 ## Application Screenshots
 
 ### Authentication Interface
-![Auth Page](docs/images/Auth_page.png)
+<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/Auth_page.png" alt="Auth Page" width="600">
 
 ### Writer Dashboard
-![Writer Dashboard](docs/images/writer_dashboard.png)
+<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/writer_dashboard.png" alt="Writer Dashboard" width="600">
 
 ### Admin Dashboard
-![Admin Dashboard](docs/images/admin_dashboard.png)
+<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/admin_dashboard.png" alt="Admin Dashboard" width="600">
 
 ### Article Creation
-![Create Article](docs/images/create_article.png)
+<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/create_article.png" alt="Create Article" width="600">
 
 ### Public Home Page
-![Public Home Page](docs/images/public_home_page.png)
+<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/public_home_page.png" alt="Public Home Page" width="600">
 
 ### Article Display
-![Single Article Page](docs/images/single_article_page.png)
+<img src="https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/docs/images/single_article_page.png" alt="Single Article Page" width="600">
 
 ## Development Standards
 
