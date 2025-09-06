@@ -34,8 +34,6 @@ The system exposes a robust public API with the following endpoints:
 
 - `GET /api/articles` - Retrieve paginated article listings
 - `GET /api/articles/{id}` - Fetch individual article details
-- `GET /api/articles/search` - Advanced search functionality
-- `GET /api/stats` - System statistics and metrics
 
 All API responses follow consistent JSON formatting with proper HTTP status codes and error handling.
 
@@ -160,22 +158,22 @@ php artisan storage:link
 ## Application Screenshots
 
 ### Authentication Interface
-![Auth Page](public/images/Auth%20page.png)
+![Auth Page](public/images/Auth_page.png)
 
 ### Writer Dashboard
-![Writer Dashboard](public/images/writer%20dashboard.png)
+![Writer Dashboard](public/images/writer_dashboard.png)
 
 ### Admin Dashboard
-![Admin Dashboard](public/images/admin%20dashboard.png)
+![Admin Dashboard](public/images/admin_dashboard.png)
 
 ### Article Creation
-![Create Article](public/images/create%20article.png)
+![Create Article](public/images/create_article.png)
 
 ### Public Home Page
-![Public Home Page](public/images/public%20home%20page.png)
+![Public Home Page](public/images/public_home_page.png)
 
 ### Article Display
-![Single Article Page](public/images/single%20article%20page.png)
+![Single Article Page](public/images/single_article_page.png)
 
 ## Development Standards
 
@@ -188,7 +186,6 @@ php artisan storage:link
 ### Security Implementation
 - CSRF protection on all forms
 - SQL injection prevention through Eloquent ORM
-- XSS protection with proper data escaping
 - Role-based access control
 
 ### Performance Optimization
@@ -199,11 +196,11 @@ php artisan storage:link
 
 ## Technology Stack
 
-- **Backend:** Laravel 11, PHP 8.1+
-- **Database:** SQLite (default), MySQL/PostgreSQL support
-- **Frontend:** Blade Templates, Modern CSS, Vanilla JavaScript
+- **Backend:** Laravel 11, PHP 8.3
+- **Database:** MySQL
+- **Frontend:** Blade Templates, Modern CSS
 - **Design:** Glassmorphism UI, Responsive Design
-- **Tools:** Composer, NPM, Vite
+- **Tools:** Composer, NPM
 
 ## Contributing
 
