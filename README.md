@@ -158,22 +158,22 @@ php artisan storage:link
 ## Application Screenshots
 
 ### Authentication Interface
-![Auth Page](https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/public/images/Auth_page.png)
+![Auth Page](docs/images/Auth_page.png)
 
 ### Writer Dashboard
-![Writer Dashboard](https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/public/images/writer_dashboard.png)
+![Writer Dashboard](docs/images/writer_dashboard.png)
 
 ### Admin Dashboard
-![Admin Dashboard](https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/public/images/admin_dashboard.png)
+![Admin Dashboard](docs/images/admin_dashboard.png)
 
 ### Article Creation
-![Create Article](https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/public/images/create_article.png)
+![Create Article](docs/images/create_article.png)
 
 ### Public Home Page
-![Public Home Page](https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/public/images/public_home_page.png)
+![Public Home Page](docs/images/public_home_page.png)
 
 ### Article Display
-![Single Article Page](https://raw.githubusercontent.com/mabdullahgithub/Scriptoria/fix/ui-enhancement/public/images/single_article_page.png)
+![Single Article Page](docs/images/single_article_page.png)
 
 ## Development Standards
 
