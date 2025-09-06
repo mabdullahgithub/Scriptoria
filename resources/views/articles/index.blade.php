@@ -20,7 +20,7 @@
         @if(auth()->user()->is_admin)
             <a href="{{ route('admin.articles.index') }}" class="nav-btn">Admin Panel</a>
         @endif
-        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+        <form method="POST" action="{{ route('logout') }}" class="inline-form">
             @csrf
             <button type="submit" class="nav-btn">Logout</button>
         </form>
@@ -93,7 +93,7 @@
         </div>
 
         {{-- Create Article Button --}}
-        <div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">
+        <div class="create-article-container">
             <a href="{{ route('articles.create') }}" class="action-btn primary">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4v16m8-8H4"/></svg>
                 Create New Article
@@ -137,7 +137,7 @@
                                 Edit
                             </a>
                             
-                            <form action="{{ route('articles.submit', $article) }}" method="POST" style="display: inline;">
+                            <form action="{{ route('articles.submit', $article) }}" method="POST" class="inline-form">
                                 @csrf
                                 <button type="submit" class="btn-small btn-submit" onclick="return confirm('Submit article for review?')">
                                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
@@ -147,7 +147,7 @@
                         @endif
                         
                         @if($article->status !== App\Enums\ArticleStatus::PUBLISHED)
-                            <form action="{{ route('articles.destroy', $article) }}" method="POST" style="display: inline;">
+                            <form action="{{ route('articles.destroy', $article) }}" method="POST" class="inline-form">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-small btn-delete" onclick="return confirm('Delete this article?')">
@@ -160,13 +160,6 @@
                 </div>
                 @endforeach
             </div>
-
-            {{-- Pagination --}}
-            @if($articles->hasPages())
-                <div style="margin-top: 40px; display: flex; justify-content: center;">
-                    {{ $articles->links() }}
-                </div>
-            @endif
         @else
             <div class="empty-state">
                 <h3>No Articles Yet</h3>

@@ -21,7 +21,7 @@
         @if(auth()->user()->is_admin)
             <a href="{{ route('admin.articles.index') }}" class="nav-btn">Admin Panel</a>
         @endif
-        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+        <form method="POST" action="{{ route('logout') }}" class="inline-form">
             @csrf
             <button type="submit" class="nav-btn">Logout</button>
         </form>
@@ -61,13 +61,14 @@
                 <div class="form-group">
                     <label for="excerpt" class="form-label">
                         Excerpt 
-                        <span style="color: #888; font-weight: normal;">(optional - will be auto-generated if empty)</span>
+                        <span class="required-text">(required)</span>
                     </label>
                     <textarea name="excerpt" 
                               id="excerpt" 
                               rows="3"
                               class="form-textarea @error('excerpt') border-red-500 @enderror"
-                              placeholder="Write a brief summary of your article...">{{ old('excerpt') }}</textarea>
+                              placeholder="Write a brief summary of your article..."
+                              required>{{ old('excerpt') }}</textarea>
                     @error('excerpt')
                         <p class="form-error">{{ $message }}</p>
                     @enderror
@@ -91,10 +92,22 @@
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.42-1.41L7.83 13H20v-2z"/></svg>
                         Cancel
                     </a>
-                    <button type="submit" class="action-btn primary">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                        Create Article
-                    </button>
+                    
+                    <div class="form-submit-actions">
+                        <button type="submit" name="action" value="draft" class="action-btn draft">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                            </svg>
+                            Save as Draft
+                        </button>
+                        
+                        <button type="submit" name="action" value="submit" class="action-btn primary">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
+                            </svg>
+                            Submit for Review
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -102,23 +115,6 @@
 
     {{-- External JavaScript --}}
     <script src="{{ asset('js/components/glow-cursor.js') }}"></script>
-    
-    {{-- Auto-resize textarea --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const textarea = document.getElementById('content');
-            
-            function autoResize() {
-                textarea.style.height = 'auto';
-                textarea.style.height = textarea.scrollHeight + 'px';
-            }
-            
-            textarea.addEventListener('input', autoResize);
-            autoResize(); // Initial resize
-            
-            // Focus on title input
-            document.getElementById('title').focus();
-        });
-    </script>
+    <script src="{{ asset('js/form-handler.js') }}"></script>
 </body>
 </html>

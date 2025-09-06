@@ -18,6 +18,20 @@ class ArticleController extends Controller
     {
         $query = Article::with('user')->latest();
 
+        // Search functionality
+        if ($request->search) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                  ->orWhere('content', 'like', "%{$searchTerm}%")
+                  ->orWhere('excerpt', 'like', "%{$searchTerm}%")
+                  ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
+                      $userQuery->where('name', 'like', "%{$searchTerm}%")
+                               ->orWhere('email', 'like', "%{$searchTerm}%");
+                  });
+            });
+        }
+
         if ($request->status && ArticleStatus::tryFrom($request->status)) {
             $query->where('status', $request->status);
         }
@@ -33,7 +47,7 @@ class ArticleController extends Controller
             $query->withTrashed();
         }
 
-        $articles = $query->paginate(15);
+        $articles = $query->get();
         $statuses = ArticleStatus::cases();
 
         return view('admin.articles.index', compact('articles', 'statuses'));

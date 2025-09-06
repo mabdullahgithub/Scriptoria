@@ -21,7 +21,7 @@
         @if(auth()->user()->is_admin)
             <a href="{{ route('admin.articles.index') }}" class="nav-btn">Admin Panel</a>
         @endif
-        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+        <form method="POST" action="{{ route('logout') }}" class="inline-form">
             @csrf
             <button type="submit" class="nav-btn">Logout</button>
         </form>
@@ -68,13 +68,14 @@
                 <div class="form-group">
                     <label for="excerpt" class="form-label">
                         Excerpt 
-                        <span style="color: #888; font-weight: normal;">(optional - will be auto-generated if empty)</span>
+                        <span class="required-text">(required)</span>
                     </label>
                     <textarea name="excerpt" 
                               id="excerpt" 
                               rows="3"
                               class="form-textarea @error('excerpt') border-red-500 @enderror"
-                              placeholder="Write a brief summary of your article...">{{ old('excerpt', $article->excerpt) }}</textarea>
+                              placeholder="Write a brief summary of your article..."
+                              required>{{ old('excerpt', $article->excerpt) }}</textarea>
                     @error('excerpt')
                         <p class="form-error">{{ $message }}</p>
                     @enderror
@@ -109,23 +110,6 @@
 
     {{-- External JavaScript --}}
     <script src="{{ asset('js/components/glow-cursor.js') }}"></script>
-    
-    {{-- Auto-resize textarea --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const textarea = document.getElementById('content');
-            
-            function autoResize() {
-                textarea.style.height = 'auto';
-                textarea.style.height = textarea.scrollHeight + 'px';
-            }
-            
-            textarea.addEventListener('input', autoResize);
-            autoResize(); // Initial resize
-            
-            // Focus on title input
-            document.getElementById('title').focus();
-        });
-    </script>
+    <script src="{{ asset('js/form-handler.js') }}"></script>
 </body>
 </html>

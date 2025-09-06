@@ -1,239 +1,214 @@
-# Scriptoria - Mini Content Management System
+# Scriptoria - Modern Content Management System
 
-A Laravel-based multi-author content management system built for the Laravel Developer Assessment. This CMS allows writers to create articles, submit them for review, and admins to approve or reject submissions.
+**Deadline: 24 Hours**
+
+Scriptoria is a sophisticated content management system built with Laravel 11, featuring a modern glassmorphism design and comprehensive article management capabilities. The system provides role-based access control with separate interfaces for writers and administrators.
+
+## Live Demo
+
+**URL:** [scriptorianavico.ranktriz.com](http://scriptorianavico.ranktriz.com)
+
+**Test Credentials:**
+- **Writer:** writer@navicosoft.com | password: password
+- **Admin:** admin@navicosoft.com | password: password
+
+## Technical Architecture
+
+### Backend Implementation
+
+#### Enumerations
+- **ArticleStatus** - Manages article lifecycle states (Draft, Pending Review, Published, Rejected)
+- **HttpStatus** - Standardizes HTTP response codes across the application
+
+#### Traits Implementation
+- **ApiExceptionHandler** - Centralized exception handling for API responses
+- **ApiResponses** - Standardized JSON response formatting
+- **DatabaseTransaction** - Ensures data integrity with automatic rollback capabilities
+
+#### Event-Driven Architecture
+- **ArticleSubmitted** - Triggered when articles are submitted for review
+- **Event Listeners** - LogArticleSubmission, LogLoginActivity for comprehensive audit trails
+
+#### Public API Endpoints
+The system exposes a robust public API with the following endpoints:
+
+- `GET /api/articles` - Retrieve paginated article listings
+- `GET /api/articles/{id}` - Fetch individual article details
+- `GET /api/articles/search` - Advanced search functionality
+- `GET /api/stats` - System statistics and metrics
+
+All API responses follow consistent JSON formatting with proper HTTP status codes and error handling.
+
+### Frontend Architecture
+
+#### Blade Template System
+- **Modular Components** - Reusable breadcrumb, navigation, and form components
+- **Layout Inheritance** - Clean separation of concerns with master layouts
+- **Conditional Rendering** - Role-based UI elements and dynamic content display
+
+#### Styling Architecture
+- **External CSS Files** - Separated CSS for maintainability and performance
+- **Glassmorphism Design** - Modern UI with backdrop filters and transparent elements
+- **Component-Based Styling** - Individual CSS files for specific components
+- **Responsive Design** - Mobile-first approach with progressive enhancement
+
+#### JavaScript Implementation
+- **External JS Files** - Modular JavaScript for specific functionalities
+- **Interactive Elements** - Glow cursor effects, form validation, and dynamic interactions
+- **Performance Optimized** - Minimal JavaScript footprint with efficient event handling
+
+### Design Techniques
+
+#### Visual Design
+- **Color Scheme** - Primary orange (#fe7f2d) with dark gradient backgrounds
+- **Typography** - System fonts with carefully crafted hierarchy
+- **Glassmorphism Effects** - Backdrop blur, transparency, and subtle borders
+- **Micro-Interactions** - Hover effects, transitions, and animated elements
+
+#### User Experience
+- **Intuitive Navigation** - Clear breadcrumbs and contextual menus
+- **Status Indicators** - Visual article status badges and progress indicators
+- **Responsive Layout** - Seamless experience across all device sizes
+- **Accessibility** - Semantic HTML and keyboard navigation support
 
 ## Features
 
-### Authentication & Authorization
-- **Laravel Breeze** authentication with Blade templates
-- **Custom middleware** for role-based route protection (`IsAdmin`, `IsWriter`)
-- **Automatic login activity tracking** with IP addresses and timestamps
-- **Event-driven security auditing** for all authentication actions
+### Writer Dashboard
+- Article creation with dual-action workflow (Save as Draft / Submit for Review)
+- Personal article management and editing capabilities
+- Real-time statistics and progress tracking
+- Modern glassmorphism interface with responsive design
 
-### Content Management
-- **Article creation and management** with draft/review workflow
-- **Status-based article lifecycle**: Draft → Pending Review → Published/Rejected
-- **Writer dashboard** to manage personal articles
-- **Admin dashboard** for reviewing pending submissions
+### Admin Dashboard
+- Comprehensive article review and management system
+- User activity monitoring and audit trails
+- System statistics and performance metrics
+- Advanced filtering and search capabilities
 
-### Technical Features
-- **Modern PHP 8.1+ Enums** for type-safe status management
-- **Professional traits** for database transactions and API responses
-- **Comprehensive Eloquent relationships** and query optimization
-- **Public REST API** for published articles
-- **Event-driven architecture** with `ArticleSubmitted` events and logging
-- **Custom middleware** for role-based authorization
-- **Automatic security auditing** with login activity tracking
+### Public Interface
+- Clean article browsing with search functionality
+- Individual article pages with reading time estimates
+- SEO-optimized URLs and meta tags
+- Mobile-responsive design
 
-## � Authentication & Authorization
-
-### Middleware Protection
-- **`IsAdmin`**: Protects admin-only routes (`/admin/*`)
-  - Verifies user authentication and admin privileges
-  - Returns 403 error for non-admin users
-  - Redirects to login for unauthenticated users
-
-- **`IsWriter`**: Protects writer-only routes (`/articles/*`)
-  - Ensures user has writer privileges (non-admin)
-  - Maintains separation between admin and writer functions
-
-### Event-Driven Security
-- **Login Activity Tracking**: Automatically logs all user logins
-  - Records IP address, timestamp, and user information
-  - Enables security auditing and monitoring
-  - Integrates with Laravel's built-in `Login` event
-
-- **Article Submission Events**: Logs article review submissions
-  - Triggers when writers submit articles for review
-  - Creates audit trail for content workflow
-  - Custom `ArticleSubmitted` event with detailed logging
-
-## �🗄️ Database Schema
-
-### Users Table
-- `id`, `name`, `email`, `password`
-- `is_admin` (boolean, default: false)
-- `email_verified_at`, `remember_token`, `timestamps`
-
-### Articles Table
-- `id`, `user_id` (foreign key), `title`, `content`
-- `status` (enum: draft, pending_review, published, rejected)
-- `timestamps` with performance indexes
-
-### Login Activities Table
-- `id`, `user_id` (foreign key), `ip_address`
-- `login_at` (timestamp), `timestamps`
-
-## Setup Instructions
+## Installation Guide
 
 ### Prerequisites
 - PHP 8.1 or higher
 - Composer
-- MySQL/MariaDB
-- Node.js & npm (for frontend assets)
+- Node.js and NPM
+- SQLite (default) or MySQL/PostgreSQL
 
-### Installation
-
-1. **Clone the repository**
+### Step 1: Clone Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/mabdullahgithub/Scriptoria.git
 cd Scriptoria
 ```
 
-2. **Install PHP dependencies**
+### Step 2: Install Dependencies
 ```bash
+# Install PHP dependencies
 composer install
-```
 
-3. **Install Node.js dependencies**
-```bash
+# Install Node.js dependencies
 npm install
 ```
 
-4. **Environment configuration**
+### Step 3: Environment Configuration
 ```bash
+# Copy environment file
 cp .env.example .env
+
+# Generate application key
 php artisan key:generate
 ```
 
-5. **Configure database in .env**
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=scriptoria
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-```
-
-6. **Run migrations and seeders**
+### Step 4: Database Setup
 ```bash
+# Run migrations and seeders
 php artisan migrate --seed
+
+# This will create:
+# - Database tables
+# - Admin user (admin@navicosoft.com)
+# - Writer users (writer@navicosoft.com)
+# - Sample articles
 ```
 
-7. **Build frontend assets**
+### Step 5: Asset Compilation
 ```bash
+# Compile frontend assets
 npm run build
+
+# For development
+npm run dev
 ```
 
-8. **Start development server**
+### Step 6: Start Development Server
 ```bash
 php artisan serve
 ```
 
-## 👤 Test Users
+Access the application at `http://localhost:8000`
 
-The application comes with pre-seeded test users:
-
-### Admin User
-- **Email**: `admin@example.com`
-- **Password**: `password`
-- **Permissions**: Can review, approve, and reject articles
-
-### Writer Users
-- **Primary Writer**: `writer@example.com` / `password`
-- **Additional Writers**: `writer1@example.com`, `writer2@example.com`, `writer3@example.com`
-- **Password**: `password` (for all)
-- **Permissions**: Can create, edit, and submit articles for review
-
-## User Workflows
-
-### For Writers (`/articles/*`)
-1. **Dashboard Access**: View personal articles and their statuses
-2. **Create Articles**: Write new content (automatically saved as 'draft')
-3. **Submit for Review**: Change article status from 'draft' to 'pending_review'
-4. **Edit Articles**: Modify draft or rejected articles
-
-### For Admins (`/admin/*`)
-1. **Review Dashboard**: View all articles pending review
-2. **Approve Articles**: Change status to 'published' (public visibility)
-3. **Reject Articles**: Send back to writer for revision
-
-## 🔗 API Endpoints
-
-### Public API
-- **GET** `/api/articles` - Retrieve all published articles
-  - Returns: Article title, content, and author name
-  - No authentication required
-  - JSON format with standardized response structure
-
-## 🏗️ Architecture
-
-### Enums
-- **`ArticleStatus`**: Type-safe status management with business logic
-- **`HttpStatus`**: Professional HTTP response codes with descriptions
-
-### Traits
-- **`DatabaseTransaction`**: Safe database operations with rollback
-- **`ApiResponses`**: Standardized JSON response formatting
-- **`ApiExceptionHandler`**: Centralized error handling for APIs
-
-### Models & Relationships
-```php
-User::class
-├── hasMany(Article::class)
-└── hasMany(LoginActivity::class)
-
-Article::class
-└── belongsTo(User::class)
-
-LoginActivity::class
-└── belongsTo(User::class)
+### Step 7: Storage Configuration
+```bash
+# Create storage symlink
+php artisan storage:link
 ```
 
-## Testing
+## Application Screenshots
 
-### Manual Testing
-1. **Registration/Login**: Test authentication flows
-2. **Article Creation**: Create and submit articles as writer
-3. **Admin Review**: Approve/reject as admin user
-4. **API Testing**: Access `/api/articles` endpoint
-5. **Role Permissions**: Verify middleware protection
+### Authentication Interface
+![Auth Page](public/images/Auth%20page.png)
 
-### Sample Data
-The application includes 6 sample articles in various statuses:
-- 2 Published articles (publicly visible)
-- 2 Pending review (admin action required)
-- 1 Draft (writer can edit)
-- 1 Rejected (writer can revise)
+### Writer Dashboard
+![Writer Dashboard](public/images/writer%20dashboard.png)
 
-## Development Status
+### Admin Dashboard
+![Admin Dashboard](public/images/admin%20dashboard.png)
 
-### ✅ Completed Features
-- [x] Laravel Breeze authentication setup
-- [x] Database schema with migrations and seeders
-- [x] User roles and permissions (Admin/Writer)
-- [x] **Custom middleware for route protection**
-- [x] **Event-driven login activity tracking**
-- [x] **Article submission event logging**
-- [x] Article CRUD operations foundation
-- [x] Status-based workflow with enums
-- [x] Public API endpoint structure
-- [x] Professional code organization with traits
-- [x] Comprehensive documentation
+### Article Creation
+![Create Article](public/images/create%20article.png)
 
+### Public Home Page
+![Public Home Page](public/images/public%20home%20page.png)
 
-##  Assessment Compliance
+### Article Display
+![Single Article Page](public/images/single%20article%20page.png)
 
-This project fulfills all core requirements:
-- ✅ Laravel 11 with Breeze authentication
-- ✅ MySQL database with proper relationships
-- ✅ User roles (Admin/Writer) with boolean column
-- ✅ **Custom middleware (IsAdmin, IsWriter)**
-- ✅ Article model with status workflow
-- ✅ **LoginActivity tracking implementation**
-- ✅ Eloquent relationships and migrations
-- ✅ **Event-driven architecture with listeners**
-- ✅ Public API endpoint for published articles
-- ✅ Professional code organization and best practices
+## Development Standards
 
-### Additional Professional Features
-- ✅ **Type-safe enums** for status management
-- ✅ **Database transaction traits** for data integrity
-- ✅ **API response standardization** with custom traits
-- ✅ **Comprehensive event logging** for security auditing
-- ✅ **Professional documentation** and setup instructions
+### Code Organization
+- PSR-4 autoloading standards
+- Laravel naming conventions
+- Comprehensive error handling
+- Database transaction management
+
+### Security Implementation
+- CSRF protection on all forms
+- SQL injection prevention through Eloquent ORM
+- XSS protection with proper data escaping
+- Role-based access control
+
+### Performance Optimization
+- Efficient database queries with proper indexing
+- Asset minification and compression
+- Lazy loading for improved page speeds
+- Caching strategies for frequently accessed data
+
+## Technology Stack
+
+- **Backend:** Laravel 11, PHP 8.1+
+- **Database:** SQLite (default), MySQL/PostgreSQL support
+- **Frontend:** Blade Templates, Modern CSS, Vanilla JavaScript
+- **Design:** Glassmorphism UI, Responsive Design
+- **Tools:** Composer, NPM, Vite
+
+## Contributing
+
+This project follows Laravel best practices and maintains high code quality standards. All contributions should include proper documentation and testing.
 
 ## License
 
-This project is created for assessment purposes and follows Laravel's open-source license.
+This project is developed as part of a technical assessment and follows standard software development practices.

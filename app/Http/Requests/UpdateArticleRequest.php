@@ -33,7 +33,7 @@ class UpdateArticleRequest extends FormRequest
                 Rule::unique('articles', 'title')->ignore($article->id)
             ],
             'content' => 'required|string|min:100',
-            'excerpt' => 'nullable|string|max:500',
+            'excerpt' => 'required|string|max:500|min:10',
         ];
 
         if (Auth::user()->isAdmin()) {
@@ -53,17 +53,12 @@ class UpdateArticleRequest extends FormRequest
             'title.unique' => 'An article with this title already exists.',
             'content.required' => 'The article content is required.',
             'content.min' => 'The article content must be at least 100 characters.',
+            'excerpt.required' => 'The article excerpt is required.',
+            'excerpt.min' => 'The excerpt must be at least 10 characters.',
             'excerpt.max' => 'The excerpt cannot exceed 500 characters.',
             'status.enum' => 'The selected status is invalid.',
         ];
     }
 
-    protected function prepareForValidation(): void
-    {
-        if (!$this->excerpt && $this->content) {
-            $this->merge([
-                'excerpt' => substr(strip_tags($this->content), 0, 200) . '...'
-            ]);
-        }
-    }
+    // Removed auto-generation of excerpt - now required to be provided by user
 }

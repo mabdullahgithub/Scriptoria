@@ -173,6 +173,9 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .article-author {
@@ -233,6 +236,9 @@ body {
     line-height: 1.8;
     color: #e5e7eb;
     text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .content-body p {

@@ -27,9 +27,9 @@
             @if(auth()->user()->is_admin)
                 <a href="{{ route('admin.articles.index') }}" class="auth-btn">Admin</a>
             @endif
-            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+            <form method="POST" action="{{ route('logout') }}" class="inline-form">
                 @csrf
-                <button type="submit" class="auth-btn" style="background: none; border: 1px solid rgba(255,255,255,0.1);">Logout</button>
+                <button type="submit" class="auth-btn logout-btn">Logout</button>
             </form>
         @else
             <a href="{{ route('login') }}" class="auth-btn">Login</a>
@@ -61,7 +61,7 @@
                         </span>
                     </div>
                     <div class="article-author">By {{ $article->user->name }}</div>
-                    <p class="article-excerpt">{{ Str::limit($article->content, 150) }}</p>
+                    <p class="article-excerpt">{{ $article->excerpt ?: Str::limit($article->content, 150) }}</p>
                     <div class="article-meta">
                         <span class="article-date">{{ $article->created_at->format('M d, Y') }}</span>
                         <span class="read-time">{{ ceil(str_word_count($article->content) / 200) }} min read</span>
@@ -71,7 +71,7 @@
                         @if($article->status->value === 'published')
                             <a href="{{ route('article.show', $article) }}" class="read-more-btn">Read Article</a>
                         @else
-                            <span style="font-size: 13px; color: #888;">{{ $article->status->label() }}</span>
+                            <span class="status-label">{{ $article->status->label() }}</span>
                         @endif
                     </div>
                 </div>
@@ -80,9 +80,9 @@
                     <h3>No Articles Yet</h3>
                     <p>Start creating amazing content with Scriptoria CMS!</p>
                     @auth
-                        <a href="{{ route('articles.create') }}" class="read-more-btn" style="margin-top: 15px; display: inline-block;">Create Your First Article</a>
+                        <a href="{{ route('articles.create') }}" class="read-more-btn inline-margin-btn">Create Your First Article</a>
                     @else
-                        <a href="{{ route('register') }}" class="read-more-btn" style="margin-top: 15px; display: inline-block;">Join Scriptoria</a>
+                        <a href="{{ route('register') }}" class="read-more-btn inline-margin-btn">Join Scriptoria</a>
                     @endauth
                 </div>
                 @endforelse

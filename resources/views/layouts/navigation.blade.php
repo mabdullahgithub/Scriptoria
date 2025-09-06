@@ -17,7 +17,7 @@
                     </x-nav-link>
                     
                     @auth
-                        @if(Auth::user()->isWriter() || Auth::user()->isAdmin())
+                        @if((Auth::user()->isWriter() || Auth::user()->isAdmin()) && !request()->routeIs('admin.*'))
                             <x-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.*')">
                                 {{ __('My Articles') }}
                             </x-nav-link>
@@ -86,7 +86,7 @@
             </x-responsive-nav-link>
             
             @auth
-                @if(Auth::user()->isWriter() || Auth::user()->isAdmin())
+                @if((Auth::user()->isWriter() || Auth::user()->isAdmin()) && !request()->routeIs('admin.*'))
                     <x-responsive-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.*')">
                         {{ __('My Articles') }}
                     </x-responsive-nav-link>
