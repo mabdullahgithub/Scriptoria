@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Enums\HttpStatus;
 use App\Http\Controllers\Api\BaseApiController;
-use App\Http\Resources\Api\V1\ArticleCollection;
-use App\Http\Resources\Api\V1\ArticleResource;
 use App\Models\Article;
 
 class ArticleController extends BaseApiController
@@ -18,10 +16,26 @@ class ArticleController extends BaseApiController
                 ->latest('published_at')
                 ->get();
 
-            $resource = new ArticleCollection($articles);
+            $data = [
+                'articles' => $articles->map(function ($article) {
+                    return [
+                        'id' => $article->id,
+                        'title' => $article->title,
+                        'content' => $article->content,
+                        'author' => $article->user->name,
+                        'published_at' => $article->published_at ? $article->published_at->format('Y-m-d H:i:s') : null,
+                        'created_at' => $article->created_at->format('Y-m-d H:i:s'),
+                    ];
+                }),
+                'meta' => [
+                    'version' => 'v1',
+                    'total' => $articles->count(),
+                    'timestamp' => now()->toISOString()
+                ]
+            ];
             
             return $this->successResponse(
-                $resource->toArray(request()),
+                $data,
                 'Published articles retrieved successfully',
                 null,
                 HttpStatus::OK->value
@@ -36,10 +50,21 @@ class ArticleController extends BaseApiController
                 ->with('user:id,name')
                 ->findOrFail($id);
 
-            $resource = new ArticleResource($article);
+            $data = [
+                'id' => $article->id,
+                'title' => $article->title,
+                'content' => $article->content,
+                'author' => $article->user->name,
+                'published_at' => $article->published_at ? $article->published_at->format('Y-m-d H:i:s') : null,
+                'created_at' => $article->created_at->format('Y-m-d H:i:s'),
+                'meta' => [
+                    'version' => 'v1',
+                    'id' => $article->id
+                ]
+            ];
             
             return $this->successResponse(
-                $resource->toArray(request()),
+                $data,
                 'Article retrieved successfully',
                 null,
                 HttpStatus::OK->value

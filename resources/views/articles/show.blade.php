@@ -1,78 +1,98 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ $article->title }}
-            </h2>
-            <div class="flex space-x-2">
-                @if($article->status === App\Enums\ArticleStatus::DRAFT && $article->user_id === auth()->id())
-                    <a href="{{ route('articles.edit', $article) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-                        Edit
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $article->title }} - Scriptoria</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    {{-- External CSS --}}
+    <link rel="stylesheet" href="{{ asset('css/article-show.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/breadcrumb.css') }}">
+</head>
+<body>
+    {{-- Breadcrumb Navigation --}}
+    @include('components.breadcrumb', [
+        'breadcrumbs' => [
+            [
+                'title' => 'Home',
+                'url' => route('home'),
+                'icon' => '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z"/></svg>'
+            ],
+            [
+                'title' => $article->title,
+                'icon' => '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V5H19V19Z"/></svg>'
+            ]
+        ]
+    ])
+
+    <main class="article-main">
+        <div class="article-container">
+            {{-- Article Header --}}
+            <header class="article-header">
+                <div class="article-meta">
+                    <span class="status-badge status-{{ $article->status->value }}">
+                        {{ $article->status->label() }}
+                    </span>
+                    <div class="article-date">
+                        {{ $article->created_at->format('F j, Y') }}
+                        @if($article->published_at)
+                            • Published {{ $article->published_at->format('F j, Y') }}
+                        @endif
+                    </div>
+                </div>
+                
+                <h1 class="article-title">{{ $article->title }}</h1>
+                
+                <div class="article-author">
+                    <div class="author-info">
+                        <div class="author-avatar">{{ substr($article->user->name, 0, 1) }}</div>
+                        <div class="author-details">
+                            <div class="author-name">{{ $article->user->name }}</div>
+                            <div class="reading-time">{{ ceil(str_word_count($article->content) / 200) }} min read</div>
+                        </div>
+                    </div>
+                </div>
+
+                @if($article->excerpt)
+                    <div class="article-excerpt">
+                        {{ $article->excerpt }}
+                    </div>
+                @endif
+            </header>
+
+            {{-- Article Content --}}
+            <article class="article-content">
+                <div class="content-body">
+                    {!! nl2br(e($article->content)) !!}
+                </div>
+            </article>
+
+            {{-- Article Actions --}}
+            <div class="article-actions">
+                @if($article->status->value === 'draft' && $article->user_id === auth()->id())
+                    <a href="{{ route('articles.edit', $article) }}" class="action-btn edit-btn">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                        Edit Article
                     </a>
                     <form action="{{ route('articles.submit', $article) }}" method="POST" class="inline">
                         @csrf
-                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onclick="return confirm('Submit article for review?')">
+                        <button type="submit" class="action-btn submit-btn" onclick="return confirm('Submit article for review?')">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                             Submit for Review
                         </button>
                     </form>
                 @endif
-                <a href="{{ route('articles.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                    Back to Articles
+                
+                <a href="{{ route('home') }}" class="action-btn back-btn">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.42-1.41L7.83 13H20v-2z"/></svg>
+                    Back to Home
                 </a>
             </div>
         </div>
-    </x-slot>
+    </main>
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            @if(session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <!-- Article Meta Info -->
-                    <div class="border-b border-gray-200 pb-4 mb-6">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ $article->title }}</h1>
-                                <div class="flex items-center space-x-4 text-sm text-gray-500">
-                                    <span>By {{ $article->user->name }}</span>
-                                    <span>•</span>
-                                    <span>{{ $article->created_at->format('F j, Y') }}</span>
-                                    @if($article->published_at)
-                                        <span>•</span>
-                                        <span>Published {{ $article->published_at->format('F j, Y') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                            <span class="px-3 py-1 text-sm font-semibold rounded-full {{ $article->status->badgeClass() }}">
-                                {{ $article->status->value }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Article Excerpt -->
-                    @if($article->excerpt)
-                        <div class="mb-6">
-                            <p class="text-lg text-gray-700 italic">{{ $article->excerpt }}</p>
-                        </div>
-                    @endif
-
-                    <!-- Article Content -->
-                    <div class="prose max-w-none">
-                        {!! nl2br(e($article->content)) !!}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout>
+    {{-- External JavaScript --}}
+    <script src="{{ asset('js/components/breadcrumb.js') }}"></script>
+</body>
+</html>
