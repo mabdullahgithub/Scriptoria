@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('home.search');
@@ -12,9 +13,13 @@ Route::get('/search', [HomeController::class, 'search'])->name('home.search');
 // Public article reading route
 Route::get('/article/{article}', [HomeController::class, 'showArticle'])->name('article.show');
 
-// Dashboard route
+// Dashboard route - redirect to appropriate dashboard based on role
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    if (Auth::user()->is_admin) {
+        return redirect()->route('admin.articles.index');
+    } else {
+        return redirect()->route('articles.index');
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Profile routes
