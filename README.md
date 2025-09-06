@@ -6,11 +6,22 @@ Scriptoria is a sophisticated content management system built with Laravel 11, f
 
 ## Live Demo
 
-**URL:** [scriptorianavico.ranktriz.com](http://scriptorianavico.ranktriz.com)
+**URL:** [scriptorianavico.ranktriz.com](https://scriptorianavico.ranktriz.com)
 
 **Test Credentials:**
 - **Writer:** writer@navicosoft.com | password: password
 - **Admin:** admin@navicosoft.com | password: password
+
+## Live Database Access
+
+**Database Management Interface:** [https://auth-db1941.hstgr.io/index.php?db=u408040054_scriptoria](https://auth-db1941.hstgr.io/index.php?db=u408040054_scriptoria)
+
+**Database Credentials:**
+- **Database Name:** u408040054_scriptoria
+- **Username:** u408040054_scriptoria
+- **Password:** kyzmo8-cohwig-Gacvab
+
+This provides direct access to the live production database for inspection and verification of the application's data structure and content.
 
 ## Technical Architecture
 
@@ -28,6 +39,11 @@ Scriptoria is a sophisticated content management system built with Laravel 11, f
 #### Event-Driven Architecture
 - **ArticleSubmitted** - Triggered when articles are submitted for review
 - **Event Listeners** - LogArticleSubmission, LogLoginActivity for comprehensive audit trails
+- **Login Activity Tracking** - Automatic logging of all user authentication events
+  - Records user IP addresses, login timestamps, and session details
+  - Stored in dedicated `login_activities` database table
+  - Enables security monitoring and user activity analysis
+  - Provides comprehensive audit trail for admin oversight
 
 #### Public API Endpoints
 The system exposes a robust public API with the following endpoints:
@@ -80,14 +96,23 @@ All API responses follow consistent JSON formatting with proper HTTP status code
 ### Admin Dashboard
 - Comprehensive article review and management system
 - User activity monitoring and audit trails
+- **Login Activity Tracking** - Complete database logging of user authentication events
 - System statistics and performance metrics
 - Advanced filtering and search capabilities
+- Real-time security monitoring with IP address tracking
 
 ### Public Interface
 - Clean article browsing with search functionality
 - Individual article pages with reading time estimates
 - SEO-optimized URLs and meta tags
 - Mobile-responsive design
+
+### Security Features
+- **Comprehensive Login Activity Logging** - Every user authentication is recorded in database
+- **IP Address Tracking** - Monitor user locations and detect suspicious activity
+- **Session Management** - Secure session handling with automatic timeout
+- **Event-Driven Security Auditing** - Real-time logging of critical system events
+- **Role-Based Access Control** - Strict permission system for writers and administrators
 
 ## Installation Guide
 
