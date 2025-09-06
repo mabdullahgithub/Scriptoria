@@ -1,7 +1,5 @@
 # Scriptoria - Modern Content Management System
 
-**Deadline: 24 Hours**
-
 Scriptoria is a sophisticated content management system built with Laravel 11, featuring a modern glassmorphism design and comprehensive article management capabilities. The system provides role-based access control with separate interfaces for writers and administrators.
 
 ## Live Demo
